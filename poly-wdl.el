@@ -31,31 +31,42 @@
 (require 'polymode)
 (require 'wdl-mode)
 
-(define-hostmode poly-wdl-hostmode
-  :mode 'wdl-mode)
+(defcustom pm-host/wdl
+  (pm-host-chunkmode :name "wdl"
+                     :mode 'wdl-mode)
+  "WDL host chunkmode."
+  :group 'poly-hostmodes
+  :type 'object)
 
-(define-innermode poly-wdl-command-short-innermode
-  :mode 'sh-mode
-  :head-matcher "^[ \t]*command *{ *\n"
-  :tail-matcher "^[ \t]*} *\n"
-  :indent-offset 4
-  :head-mode 'host
-  :tail-mode 'host)
+(defcustom pm-inner/command-short
+  (pm-inner-chunkmode :name "command"
+                      :head-matcher "^[ \t]*command *{ *\n"
+                      :tail-matcher "^[ \t]*} *\n"
+                      :head-mode 'host
+		      :tail-mode 'host
+		      :mode 'sh-mode)
+  "Short command chunkmode."
+  :group 'innermodes
+  :type 'object)
 
-(define-innermode poly-wdl-command-long-innermode
-  :mode 'sh-mode
-  :head-matcher "^[ \t]*command *<<< *\n"
-  :tail-matcher "^[ \t]*>>> *\n"
-  :indent-offset 4
-  :head-mode 'host
-  :tail-mode 'host)
+(defcustom pm-inner/command-long
+  (pm-inner-chunkmode :name "command"
+                      :head-matcher "^[ \t]*command *<<< *\n"
+                      :tail-matcher "^[ \t]*>>> *\n"
+                      :head-mode 'host
+		      :tail-mode 'host
+		      :mode 'sh-mode)
+  "Long command chunkmode."
+  :group 'innermodes
+  :type 'object)
 
-;;;###autoload  (autoload 'poly-wdl-mode "poly-wdl")
+;;;###autoload (autoload 'poly-wdl-mode "poly-wdl")
 (define-polymode poly-wdl-mode
-  :hostmode 'poly-wdl-hostmode
-  :innermodes '(poly-wdl-command-short-innermode
-		poly-wdl-command-long-innermode))
+  :hostmode 'pm-host/wdl
+  :innermodes '(pm-inner/command-short
+		pm-inner/command-long))
 
+;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.wdl\\'" . poly-wdl-mode))
 
 (provide 'poly-wdl)
