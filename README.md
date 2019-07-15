@@ -5,3 +5,5 @@
 Edit [WDL files](https://software.broadinstitute.org/wdl/) describing workflows.
 
 This is a [polymode](https://polymode.github.io/), using [wdl-mode](https://github.com/zhanxw/wdl-mode) for the WDL part and [sh-mode](https://www.emacswiki.org/emacs/ShMode) for the command chunks.
+
+Install through [MELPA](https://github.com/melpa/melpa).
